@@ -6,6 +6,8 @@ import wave
 import os
 
 app = FastAPI()
+
+#"D:\Python\ffmpeg-2025-03-10-git-87e5da9067-full_build\bin" là đường dẫn local gốc để sử dụng ffmpeg cho việc định dạng dữ liệu chuyển đổi codec (audio)
 os.environ["PATH"] += r";D:\Python\ffmpeg-2025-03-10-git-87e5da9067-full_build\bin"
 
 # Load model Whisper chỉ một lần khi khởi động server
