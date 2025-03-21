@@ -1,3 +1,6 @@
 *.zip filter=lfs diff=lfs merge=lfs -text
 ffmpeg-2025-03-10-git-87e5da9067-full_build.zip filter=lfs diff=lfs merge=lfs -text
 ffmpeg-2025-03-10-git-87e5da9067-full_build filter=lfs diff=lfs merge=lfs -text
+ffmpeg-2025-03-10-git-87e5da9067-full_build/bin/ffmpeg.exe filter=lfs diff=lfs merge=lfs -text
+ffmpeg-2025-03-10-git-87e5da9067-full_build/bin/ffplay.exe filter=lfs diff=lfs merge=lfs -text
+ffmpeg-2025-03-10-git-87e5da9067-full_build/bin/ffprobe.exe filter=lfs diff=lfs merge=lfs -text
