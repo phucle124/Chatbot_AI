@@ -1,0 +1,57 @@
+[
+  {
+    "language": "CSS",
+    "course_name": "CSS cơ bản",
+    "application": "Thiết kế giao diện cơ bản, tạo style cho website"
+  },
+  {
+    "language": "CSS",
+    "course_name": "nan",
+    "application": "Xây dựng layout, giao diện responsive cho website"
+  },
+  {
+    "language": "CSS",
+    "course_name": "nan",
+    "application": "Tạo hiệu ứng, animation sinh động trên website"
+  },
+  {
+    "language": "CSS",
+    "course_name": "nan",
+    "application": "Thiết kế website nhanh với UI framework"
+  },
+  {
+    "language": "Java",
+    "course_name": "Java cơ bản",
+    "application": "Viết chương trình Java cơ bản, làm bài tập nhập môn..."
+  },
+  {
+    "language": "Java",
+    "course_name": "Java nâng cao",
+    "application": "Xử lý dữ liệu lớn, kết nối cơ sở dữ liệu, lập trình đa luồng"
+  },
+  {
+    "language": "Java",
+    "course_name": "OOP Java",
+    "application": "Phát triển các hệ thống theo mô hình OOP, maintain code dễ dàng"
+  },
+  {
+    "language": "Java",
+    "course_name": "Java Web Development",
+    "application": "Làm web với Java, xây dựng hệ thống backend web"
+  },
+  {
+    "language": "C++",
+    "course_name": "C++ cơ bản",
+    "application": "Viết chương trình C++ cơ bản, làm quen với C++"
+  },
+  {
+    "language": "C++",
+    "course_name": "C++ nâng cao",
+    "application": "Xây dựng ứng dụng tối ưu bộ nhớ, sử dụng thư viện STL"
+  },
+  {
+    "language": "C++",
+    "course_name": "OOP C++",
+    "application": "Xây dựng chương trình theo hướng đối tượng, mô phỏng thực tế"
+  }
+]

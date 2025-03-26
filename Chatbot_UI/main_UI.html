@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Window</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .chatbot-avatar {
+            height: 200px;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .electric-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(7, 31, 33, 0.45) 0%,
+                rgba(27, 16, 45, 0.34) 33%,
+                rgba(38, 8, 21, 0.32) 66%
+            );
+            animation: moveGradient 8s linear infinite;
+        }
+
+        .electric-line {
+            position: absolute;
+            width: 200%;
+            height: 2px;
+            opacity: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(7, 31, 33, 0.8) 15%,
+                rgba(27, 16, 45, 0.8) 30%,
+                rgba(38, 8, 21, 0.8) 45%,
+                transparent 60%
+            );
+        }
+
+        .line-x {
+            animation: moveX 4s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .line-y {
+            width: 1px;
+            height: 200%;
+            animation: moveY 4s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .line-z {
+            animation: moveZ 4s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .line-xy {
+            animation: moveXY 5s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .line-xz {
+            animation: moveXZ 5s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .line-yz {
+            width: 1px;
+            height: 50%;
+            animation: moveYZ 4s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes moveX {
+            0% { transform: translateX(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+
+        @keyframes moveY {
+            0% { transform: translateY(-50%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+
+        @keyframes moveZ {
+            0% { transform: translateZ(-50px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateZ(50px); opacity: 0; }
+        }
+
+        @keyframes moveXY {
+            0% { transform: translate(-100%, -50%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(100%, 50%); opacity: 0; }
+        }
+
+        @keyframes moveXZ {
+            0% { transform: translateX(-100%) translateZ(-50px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100%) translateZ(50px); opacity: 0; }
+        }
+
+        @keyframes moveYZ {
+            0% { transform: translateY(-100%) translateZ(-50px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100%) translateZ(50px); opacity: 0; }
+        }
+
+        @keyframes moveGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            animation: pulse 3s infinite ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+        }
+
+        .chat-input {
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 0 5px;
+        }
+
+        .message {
+            margin: 8px 0;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background-color: white;
+            color: #333;
+            margin-right: auto;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-window">
+        <div class="chatbot-avatar">
+            <div class="electric-background"></div>
+            <div id="electric-lines"></div>
+            <svg class="avatar" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00ffff;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#ff00ff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#00ffff;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M500,100 C700,100 900,300 900,500 C900,700 700,900 500,900 C300,900 100,700 100,500 C100,300 300,100 500,100" 
+                      fill="none" 
+                      stroke="url(#gradient)" 
+                      stroke-width="2">
+                    <animate attributeName="d" 
+                            dur="10s" 
+                            repeatCount="indefinite" 
+                            values="
+                            M500,100 C700,100 900,300 900,500 C900,700 700,900 500,900 C300,900 100,700 100,500 C100,300 300,100 500,100;
+                            M500,150 C650,150 850,350 850,500 C850,650 650,850 500,850 C350,850 150,650 150,500 C150,350 350,150 500,150;
+                            M500,100 C700,100 900,300 900,500 C900,700 700,900 500,900 C300,900 100,700 100,500 C100,300 300,100 500,100"
+                    />
+                </path>
+                <g class="dots" fill="url(#gradient)">
+                    <circle cx="500" cy="500" r="3">
+                        <animate attributeName="r" 
+                                dur="3s" 
+                                repeatCount="indefinite" 
+                                values="3;5;3"/>
+                    </circle>
+                </g>
+            </svg>
+        </div>
+        <div class="chat-container">
+            <div class="chat-header">
+                <span>Chat Assistant</span>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="chat-messages">
+                <div class="message bot-message">Xin chào! Tôi có thể giúp gì cho bạn?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Nhập tin nhắn...">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const colors = [
+            'rgba(7, 31, 33, 0.8)',
+            'rgba(27, 16, 45, 0.8)',
+            'rgba(38, 8, 21, 0.8)'
+        ];
+
+        const movements = ['x', 'y', 'z', 'xy', 'xz', 'yz'];
+        const linesContainer = document.getElementById('electric-lines');
+
+        function createLine() {
+            const line = document.createElement('div');
+            line.className = 'electric-line';
+            
+            // Randomly select 1 or 2 colors
+            const numColors = Math.random() < 0.5 ? 1 : 2;
+            const selectedColors = [...colors]
+                .sort(() => Math.random() - 0.5)
+                .slice(0, numColors);
+            
+            // Create gradient with selected colors
+            const gradient = selectedColors.map((color, i) => 
+                `${color} ${(i * 50) + 15}%`
+            ).join(', ');
+            
+            line.style.background = `linear-gradient(90deg, 
+                transparent 0%, 
+                ${gradient},
+                transparent 60%
+            )`;
+
+            // Select movement type
+            const movement = movements[Math.floor(Math.random() * movements.length)];
+            line.classList.add(`line-${movement}`);
+
+            // Random position
+            line.style.top = `${Math.random() * 100}%`;
+            line.style.left = `${Math.random() * 100}%`;
+
+            return line;
+        }
+
+        function updateLines() {
+            linesContainer.innerHTML = '';
+            const numLines = Math.floor(Math.random() * 2) + 1; // 1 or 2 lines
+            
+            for (let i = 0; i < numLines; i++) {
+                const line = createLine();
+                linesContainer.appendChild(line);
+            }
+        }
+
+        // Initial creation
+        updateLines();
+        // Update every 4 seconds
+        setInterval(updateLines, 4000);
+
+        // Close button functionality
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.querySelector('.chat-window').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
